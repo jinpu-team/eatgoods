@@ -10,10 +10,8 @@ public class MainActivity extends DroidGap {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-        super.init(); // Calling this is necessary to make this work
-        appView.addJavascriptInterface(this, "MainActivity");
-        super.loadUrl("file:///android_asset/www/index.html");
+//        super.loadUrl("file:///android_asset/www/index.html");
+        super.loadUrl(Config.getStartUrl());
     }
 
     @Override
