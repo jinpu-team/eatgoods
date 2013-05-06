@@ -15,12 +15,12 @@
 //<debug>
 Ext.Loader.setPath({
     'Ext': 'touch/src',
-    'riceball': 'app'
+    'test': 'app'
 });
 //</debug>
 
 Ext.application({
-    name: 'riceball',
+    name: 'test',
 
     requires: [
         'Ext.MessageBox'
@@ -53,7 +53,7 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add(Ext.create('riceball.view.Main'));
+        Ext.Viewport.add(Ext.create('test.view.Main'));
     },
 
     onUpdated: function() {
