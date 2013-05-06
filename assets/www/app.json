@@ -2,7 +2,7 @@
     /**
      * The application's namespace, used by Sencha Command to generate classes
      */
-    "name": "riceball",
+    "name": "test",
 
     /**
      * The file path to this application's front HTML document, relative to this app.json file
@@ -70,6 +70,10 @@
         {
             "path": "resources/css/app.css",
             "update": "delta"
+        },
+        {
+            "path": "resources/css/app02.css",
+            "update": "delta"
         }
     ],
 
@@ -121,5 +125,5 @@
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "47b25778-3bd4-4d89-b364-5bf95487d5c6"
+    "id": "1a542053-16e8-4e45-b369-3e57c46e8424"
 }
