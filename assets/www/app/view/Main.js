@@ -1,4 +1,4 @@
-Ext.define('riceball.view.Main', {
+Ext.define('test.view.Main', {
     extend: 'Ext.tab.Panel',
     xtype: 'main',
     requires: [
@@ -7,11 +7,11 @@ Ext.define('riceball.view.Main', {
     ],
     config: {
         tabBarPosition: 'bottom',
-
+        
         items: [
             {
-                title: 'Welcome',
-                iconCls: 'home',
+                title: '查找',
+                iconCls: 'search',
 
                 styleHtmlContent: true,
                 scrollable: true,
@@ -19,24 +19,34 @@ Ext.define('riceball.view.Main', {
                 items: {
                     docked: 'top',
                     xtype: 'titlebar',
-                    title: 'Welcome to Sencha Touch 2'
+                    layout: 'vbox',
+                    items:[
+                        {
+                            xtype: 'searchfield',
+                            placeHolder: '输入菜名搜索',
+                            name:'searchfield',
+                            centered: true,
+                            width:'95%'
+                        }
+                    ]
                 },
-
                 html: [
-                    "You've just generated a new Sencha Touch 2 project. What you're looking at right now is the ",
-                    "contents of <a target='_blank' href=\"app/view/Main.js\">app/view/Main.js</a> - edit that file ",
-                    "and refresh to change what's rendered here."
+                    "<ul class='menu_list'><li><label>炒菜</label><span>手撕包菜</span><span>地三鲜</span><span>回锅肉</span><span>小炒肉</span></li>",
+                    "<li><label>米粉类</label><span>炒米粉</span><span>炒土豆粉</span><span>酸辣粉</span><span>牛肉粉</span></li>",
+                    "<li><label>米粉类</label><span>炒米粉</span><span>炒土豆粉</span><span>酸辣粉</span><span>牛肉粉</span></li>",
+                    "<li><label>米粉类</label><span>炒米粉</span><span>炒土豆粉</span><span>酸辣粉</span><span>牛肉粉</span></li>",
+                    "<li><label>炒饭</label><span>蛋炒饭</span><span>西红柿炒饭</span><span>扬州炒饭</span></li></ul>"
                 ].join("")
             },
             {
-                title: 'Get Started',
+                title: '特色推荐',
                 iconCls: 'action',
 
                 items: [
                     {
                         docked: 'top',
                         xtype: 'titlebar',
-                        title: 'Getting Started'
+                        title: '本周最受欢迎'
                     },
                     {
                         xtype: 'video',
