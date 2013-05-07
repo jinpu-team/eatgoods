@@ -1,10 +1,10 @@
 .menu_list{
-  list-style-type: none!important;
+	list-style-type: none!important;
 	margin: 0px;
 	padding: 0px;
 }
 .menu_list li{
-	padding: 4px;
+	padding: 4px 0px 4px 8px;
 	background: #FFF;
 	border-radius: 5px;
 	-moz-border-radius:5px;
@@ -18,16 +18,20 @@
 	display: inline-block;
 	float: left;
 	font-size: 14px;
-	width:45px;
+	width:70px;
 }
 .menu_list li span{
 	display: inline-block;
 	float: left;
-	width: 50px;
-	height: 50px;
+	width: 48px;
+	height: 48px;
 	background: #F1F1F1;
 	border-radius: 5px;
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
-	margin-right: 8px;
+	margin-right: 4px;
+	overflow: hidden;
+}
+.mass_of_rice{
+	background-image: url('../images/pic01.jpg');
 }

@@ -1,10 +1,94 @@
-// The following two lines import the default Sencha Touch theme. If you are building
-// a new theme, remove them and the add your own CSS on top of the base CSS (which
-// is already included in your app.json file).
-@import 'sencha-touch/default';
+$body-bg-color: #FFE6D2;
+$base-color: #FE8725;
+$active-color: #FF861D;
+$bottom-color: #38393D;
+$base_gradient:'bevel';
+
+//$tabs-dark: darken(desaturate($bottom-color, 10%), 5%);
+$tabs-dark: $bottom-color;
+$tabs-dark-active-color: saturate($active-color, 50%);
+$tabs-bottom-active-gradient: 'bevel';
+
+
+/*
+$tabs-bottom-active-gradient
+$tabs-bottom-icon-size
+$tabs-bottom-gradient
+$tabs-bottom-radius
+$tabs-dark-active-color
+$tabs-dark-color
+
+$base-gradient: 'glossy';
+$tabs-dark: darken($base-color, 80%);
+$tabs-dark-active-color: saturate($active-color, 20%);
+$tabs-bottom-active-gradient: 'recessed';
+
+*/
+ 
 @import 'sencha-touch/default/all';
+@include sencha-panel;
+@include sencha-buttons;
+@include sencha-sheet;
+@include sencha-picker;
+@include sencha-tabs;
+@include sencha-toolbar;
+@include sencha-toolbar-forms;
+@include sencha-indexbar;
+@include sencha-list;
+@include sencha-list-paging;
+@include sencha-list-pullrefresh;
+@include sencha-layout;
+@include sencha-carousel;
+@include sencha-form;
+@include sencha-msgbox;
+@include sencha-loading-spinner;
+@include sencha-draw;
+@include sencha-charts;
+@include pictos-iconmask("power_on");
+@include pictos-iconmask("shield2");
+@include pictos-iconmask("settings11");
+@include pictos-iconmask("settings9");
+@include pictos-iconmask("user_list2");
+@include pictos-iconmask("doc_list");
+@include pictos-iconmask("doc_drawer");
+@include pictos-iconmask("data");
+@include pictos-iconmask("chart2");
+@include pictos-iconmask("shop1");
+@include pictos-iconmask("shop2");
+ 
+body {
+    font-family: Georgia;
+    color: #5a3d23;
+}
+.x-html ul, .x-html ol{
+	list-style-type:none !important;
+	padding:0px;
+	margin:0px;
+}
+.x-toolbar-dark.x-docked-top{
+	border-bottom-color:#89552B;
+	box-shadow: 0px 1px 1.5px #999;
+}
+.x-tabbar.x-docked-bottom{
+	height:2.7em;
+	border-top-width:1px;
+} 
+.x-tabbar.x-docked-bottom .x-tab .x-button-icon {
+	-webkit-mask-size: 1.48em;
+	width: 1.48em;
+	height: 1.48em;
+}
+/*
+.x-toolbar .x-toolbar-title {
+    color: #5a3d23;
+}
+.x-tab-active img {
+    background: white none !important;
+}
 
-// Custom code goes here..
-
-// Examples of using the icon mixin:
-// @include icon('user');
+.x-tabbar.x-docked-bottom .x-tab {
+    .x-tab-active {
+        -webkit-box-shadow: inset rgba(#000, .8) 0 0 5px !important;
+    }
+}
+*/

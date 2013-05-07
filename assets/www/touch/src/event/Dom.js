@@ -29,7 +29,11 @@ Ext.define('Ext.event.Dom', {
         this.target = this.delegatedTarget = target;
         this.type = event.type;
 
-        this.timeStamp = this.time = +event.timeStamp;
+        this.timeStamp = this.time = event.timeStamp;
+
+        if (typeof this.time != 'number') {
+            this.time = new Date(this.time).getTime();
+        }
 
         return this;
     },

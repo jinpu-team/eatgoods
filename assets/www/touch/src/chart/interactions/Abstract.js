@@ -173,10 +173,7 @@ Ext.define('Ext.chart.interactions.Abstract', {
     },
 
     isMultiTouch: function () {
-        if (Ext.browser.is.IE10) {
-            return true;
-        }
-        return !(Ext.os.is.MultiTouch === false || Ext.browser.is.AndroidStock2 || Ext.os.is.Desktop);
+        return !(Ext.os.is.MultiTouch === false || (Ext.os.is.Android3 || Ext.os.is.Android2) || Ext.os.is.Desktop);
     },
 
     initializeDefaults: Ext.emptyFn,
@@ -225,7 +222,7 @@ Ext.define('Ext.chart.interactions.Abstract', {
         this.callSuper();
     }
 }, function () {
-    if (Ext.browser.is.AndroidStock2) {
+    if (Ext.os.is.Android2) {
         this.prototype.throttleGap = 20;
     } else if (Ext.os.is.Android4) {
         this.prototype.throttleGap = 40;

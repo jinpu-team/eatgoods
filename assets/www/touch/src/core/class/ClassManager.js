@@ -784,13 +784,7 @@
             Ext.require(requires, function() {
                 // Override the target class right after it's created
                 this.onCreated(function() {
-                    var overridenClass = this.get(overriddenClassName);
-                    if (overridenClass.singleton) {
-                        overridenClass.self.override(data);
-                    }
-                    else {
-                        overridenClass.override(data);
-                    }
+                    this.get(overriddenClassName).override(data);
 
                     // This push the overridding file itself into Ext.Loader.history
                     // Hence if the target class never exists, the overriding file will
@@ -982,7 +976,10 @@
 
         /**
          * Register a post-processor function.
+         *
          * @private
+         * @param {String} name
+         * @param {Function} postprocessor
          */
         registerPostprocessor: function(name, fn, properties, position, relativeTo) {
             if (!position) {
@@ -1008,7 +1005,7 @@
          * Set the default post processors array stack which are applied to every class.
          *
          * @private
-         * @param {String/Array} postprocessors The name of a registered post processor or an array of registered names.
+         * @param {String/Array} The name of a registered post processor or an array of registered names.
          * @return {Ext.ClassManager} this
          */
         setDefaultPostprocessors: function(postprocessors) {

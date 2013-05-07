@@ -123,11 +123,7 @@ Ext.define("Ext.chart.series.sprite.Polar", {
     },
 
     config: {
-        /**
-         * @private
-         * @cfg {Object} store The store that is passed to the renderer.
-         */
-        store: null,
+        dataItems: null,
         field: null
     },
     

@@ -8,9 +8,8 @@ Ext.define('Ext.Sheet', {
     extend: 'Ext.Panel',
 
     xtype: 'sheet',
-    alternateClassName: ['widget.crosscut'],
 
-    requires: ['Ext.Button', 'Ext.fx.Animation'],
+    requires: ['Ext.fx.Animation'],
 
     config: {
         /**
@@ -61,7 +60,7 @@ Ext.define('Ext.Sheet', {
          * @cfg
          * @inheritdoc
          */
-        showAnimation: !Ext.browser.is.AndroidStock2 ? {
+        showAnimation: !Ext.os.is.Android2 ? {
             type: 'slideIn',
             duration: 250,
             easing: 'ease-out'
@@ -71,18 +70,12 @@ Ext.define('Ext.Sheet', {
          * @cfg
          * @inheritdoc
          */
-        hideAnimation: !Ext.browser.is.AndroidStock2 ? {
+        hideAnimation: !Ext.os.is.Android2 ? {
             type: 'slideOut',
             duration: 250,
             easing: 'ease-in'
         } : null
     },
-
-    platformConfig: [{
-        theme: ['Windows'],
-        enter: 'top',
-        exit: 'top'
-    }],
 
     applyHideAnimation: function(config) {
         var exit = this.getExit(),

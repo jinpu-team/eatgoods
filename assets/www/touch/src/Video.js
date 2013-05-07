@@ -146,7 +146,7 @@ Ext.define('Ext.Video', {
             ghost = this.ghost;
 
         media.show();
-        if (Ext.browser.is.AndroidStock2) {
+        if (Ext.os.is.Android2) {
             setTimeout(function() {
                 me.play();
                 setTimeout(function() {

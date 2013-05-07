@@ -6,10 +6,8 @@
 Ext.define('Ext.util.translatable.CssTransform', {
     extend: 'Ext.util.translatable.Dom',
 
-    doTranslate: function(x, y) {
-        if (!this.isDestroyed) {
-            this.getElement().translate(x, y);
-        }
+    doTranslate: function() {
+        this.getElement().dom.style.webkitTransform = 'translate3d(' + this.x + 'px, ' + this.y + 'px, 0px)';
     },
 
     destroy: function() {

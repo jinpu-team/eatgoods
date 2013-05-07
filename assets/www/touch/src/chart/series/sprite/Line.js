@@ -12,7 +12,6 @@ Ext.define("Ext.chart.series.sprite.Line", {
         def: {
             processors: {
                 smooth: 'bool',
-                fillArea: 'bool',
                 step: 'bool',
                 preciseStroke: 'bool'
             },
@@ -24,13 +23,7 @@ Ext.define("Ext.chart.series.sprite.Line", {
                 smooth: false,
 
                 /**
-                 * @cfg {Boolean} fillArea 'true' if the sprite paints the area underneath the line.
-                 */
-                fillArea: false,
-
-                /**
-                 * @cfg {Boolean} step 'true' if the line uses steps instead of straight lines to connect the dots.
-                 * It is ignored if `smooth` is true.
+                 * @cfg {Boolean} step 'true' if the line uses step.
                  */
                 step: false,
 
@@ -72,7 +65,7 @@ Ext.define("Ext.chart.series.sprite.Line", {
         plain.height = ymax - ymin;
     },
 
-    drawStroke: function (surface, ctx, list, xAxis) {
+    drawStroke: function (surface, ctx, list) {
         var attr = this.attr,
             matrix = attr.matrix,
             xx = matrix.getXX(),
@@ -84,126 +77,27 @@ Ext.define("Ext.chart.series.sprite.Line", {
             start = list[2],
             smoothX = this.smoothX,
             smoothY = this.smoothY,
-            i, j, lineConfig, changes,
-            cx1, cy1, cx2, cy2, x, y, x0, y0, saveOpacity;
+            i, j;
         ctx.beginPath();
         if (smooth && smoothX && smoothY) {
             ctx.moveTo(smoothX[start * 3] * xx + dx, smoothY[start * 3] * yy + dy);
             for (i = 0, j = start * 3 + 1; i < list.length - 3; i += 3, j += 3) {
-                cx1 = smoothX[j] * xx + dx;
-                cy1 = smoothY[j] * yy + dy;
-                cx2 = smoothX[j + 1] * xx + dx;
-                cy2 = smoothY[j + 1] * yy + dy;
-                x = list[i + 3];
-                y = list[i + 4];
-                x0 = list[i];
-                y0 = list[i + 1];
-                if (attr.renderer) {
-                    lineConfig = {
-                        type: "line",
-                        smooth: true,
-                        step: step,
-                        cx1: cx1,
-                        cy1: cy1,
-                        cx2: cx2,
-                        cy2: cy2,
-                        x: x,
-                        y: y,
-                        x0: x0,
-                        y0: y0
-                    };
-                    changes = attr.renderer.call(this, this, lineConfig, {store:this.getStore()}, (i/3 + 1));
-                    ctx.save();
-                        Ext.apply(ctx, changes);
-                        // Fill the area if we need to, using the fill color and transparent strokes.
-                        if (attr.fillArea) {
-                            saveOpacity = ctx.strokeOpacity;
-                            ctx.save();
-                                ctx.strokeOpacity = 0;
-                                ctx.moveTo(x0, y0);
-                                ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x, y);
-                                ctx.lineTo(x, xAxis);
-                                ctx.lineTo(x0, xAxis);
-                                ctx.lineTo(x0, y0);
-                                ctx.closePath();
-                                ctx.fillStroke(attr, true);
-                            ctx.restore();
-                            ctx.strokeOpacity = saveOpacity;
-                            ctx.beginPath();
-                        }
-                        // Draw the line on top of the filled area.
-                        ctx.moveTo(x0, y0);
-                        ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x, y);
-                        ctx.moveTo(x0, y0);
-                        ctx.closePath();
-                        ctx.stroke();
-                    ctx.restore();
-                    ctx.beginPath();
-                    ctx.moveTo(x, y);
-                } else {
-                    ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x, y);
-                }
+                ctx.bezierCurveTo(
+                    smoothX[j] * xx + dx, smoothY[j] * yy + dy,
+                    smoothX[j + 1] * xx + dx, smoothY[j + 1] * yy + dy,
+                    list[i + 3], list[i + 4]
+                );
+            }
+        } else if (step) {
+            ctx.moveTo(list[0], list[1]);
+            for (i = 3; i < list.length; i += 3) {
+                ctx.lineTo(list[i], list[i - 2]);
+                ctx.lineTo(list[i], list[i + 1]);
             }
         } else {
             ctx.moveTo(list[0], list[1]);
             for (i = 3; i < list.length; i += 3) {
-                x = list[i];
-                y = list[i + 1];
-                x0 = list[i - 3];
-                y0 = list[i - 2];
-                if (attr.renderer) {
-                    lineConfig = {
-                        type: "line",
-                        smooth: false,
-                        step: step,
-                        x: x,
-                        y: y,
-                        x0: x0,
-                        y0: y0
-                    };
-                    changes = attr.renderer.call(this, this, lineConfig, {store:this.getStore()}, i/3);
-                    ctx.save();
-                        Ext.apply(ctx, changes);
-                        // Fill the area if we need to, using the fill color and transparent strokes.
-                        if (attr.fillArea) {
-                            saveOpacity = ctx.strokeOpacity;
-                            ctx.save();
-                                ctx.strokeOpacity = 0;
-                                if (step) {
-                                    ctx.lineTo(x, y0);
-                                } else {
-                                    ctx.lineTo(x, y);
-                                }
-                                ctx.lineTo(x, xAxis);
-                                ctx.lineTo(x0, xAxis);
-                                ctx.lineTo(x0, y0);
-                                ctx.closePath();
-                                ctx.fillStroke(attr, true);
-                            ctx.restore();
-                            ctx.strokeOpacity = saveOpacity;
-                            ctx.beginPath();
-                        }
-                        // Draw the line (or the 2 lines if 'step') on top of the filled area.
-                        ctx.moveTo(x0, y0);
-                        if (step) {
-                            ctx.lineTo(x, y0);
-                            ctx.closePath();
-                            ctx.stroke();
-                            ctx.beginPath();
-                            ctx.moveTo(x, y0);
-                        }
-                        ctx.lineTo(x, y);
-                        ctx.closePath();
-                        ctx.stroke();
-                    ctx.restore();
-                    ctx.beginPath();
-                    ctx.moveTo(x, y);
-                } else {
-                    if (step) {
-                        ctx.lineTo(x, y0);
-                    }
-                    ctx.lineTo(x, y);
-                }
+                ctx.lineTo(list[i], list[i + 1]);
             }
         }
     },
@@ -212,9 +106,9 @@ Ext.define("Ext.chart.series.sprite.Line", {
         var me = this,
             attr = me.attr,
             dataX = attr.dataX,
-            dataY = attr.dataY,
             matrix = attr.matrix,
-            surfaceMatrix = surface.matrix,
+            first = true,
+            dataY = attr.dataY,
             pixel = surface.devicePixelRatio,
             xx = matrix.getXX(),
             yy = matrix.getYY(),
@@ -222,15 +116,16 @@ Ext.define("Ext.chart.series.sprite.Line", {
             dy = matrix.getDY(),
             markerCfg = {},
             list = this.list || (this.list = []),
-            x, y, i, index,
+            x, y,
             minXs = aggregates.minX,
             maxXs = aggregates.maxX,
             minYs = aggregates.minY,
             maxYs = aggregates.maxY,
-            idx = aggregates.startIdx;
+            idx = aggregates.startIdx,
+            surfaceMatrix = surface.matrix;
 
         list.length = 0;
-        for (i = start; i < end; i++) {
+        for (var i = start; i < end; i++) {
             var minX = minXs[i],
                 maxX = maxXs[i],
                 minY = minYs[i],
@@ -245,61 +140,42 @@ Ext.define("Ext.chart.series.sprite.Line", {
             } else {
                 list.push(maxX * xx + dx, maxY * yy + dy, idx[i]);
             }
+            first = false;
         }
 
         if (list.length) {
             for (i = 0; i < list.length; i += 3) {
                 x = list[i];
                 y = list[i + 1];
-                index = list[i + 2];
                 if (attr.renderer) {
-                    markerCfg = {
-                        type: 'marker',
-                        x: x,
-                        y: y
-                    };
-                    markerCfg = attr.renderer.call(this, this, markerCfg, {store:this.getStore()}, i/3) || {};
+                    attr.renderer.call(this, markerCfg, this, i, this.getDataItems().items[i]);
                 }
                 markerCfg.translationX = surfaceMatrix.x(x, y);
                 markerCfg.translationY = surfaceMatrix.y(x, y);
-                me.putMarker("markers", markerCfg, index, !attr.renderer);
+                me.putMarker("markers", markerCfg, list[i + 2], !attr.renderer);
             }
-            me.drawStroke(surface, ctx, list, region[1] - pixel);
-            if (!attr.renderer) {
-                var lastPointX = dataX[dataX.length - 1] * xx + dx + pixel,
-                    lastPointY = dataY[dataY.length - 1] * yy + dy,
-                    bottomY = region[1] - pixel,
-                    firstPointX = dataX[0] * xx + dx - pixel,
-                    firstPointY = dataY[0] * yy + dy;
-                ctx.lineTo(lastPointX, lastPointY);
-                ctx.lineTo(lastPointX, bottomY);
-                ctx.lineTo(firstPointX, bottomY);
-                ctx.lineTo(firstPointX, firstPointY);
-            }
+            me.drawStroke(surface, ctx, list);
+            ctx.lineTo(dataX[dataX.length - 1] * xx + dx + pixel, dataY[dataY.length - 1] * yy + dy);
+            ctx.lineTo(dataX[dataX.length - 1] * xx + dx + pixel, region[1] - pixel);
+            ctx.lineTo(dataX[0] * xx + dx - pixel, region[1] - pixel);
+            ctx.lineTo(dataX[0] * xx + dx - pixel, dataY[0] * yy + dy);
             ctx.closePath();
-
             if (attr.transformFillStroke) {
                 attr.matrix.toContext(ctx);
             }
             if (attr.preciseStroke) {
-                if (attr.fillArea) {
-                    ctx.fill();
-                }
+                ctx.fill();
                 if (attr.transformFillStroke) {
                     attr.inverseMatrix.toContext(ctx);
                 }
-                me.drawStroke(surface, ctx, list, region[1] - pixel);
+                me.drawStroke(surface, ctx, list);
                 if (attr.transformFillStroke) {
                     attr.matrix.toContext(ctx);
                 }
                 ctx.stroke();
             } else {
                 // Prevent the reverse transform to fix floating point err.
-                if (attr.fillArea) {
-                    ctx.fillStroke(attr, true);
-                } else {
-                    ctx.stroke(true);
-                }
+                ctx.fillStroke(attr, true);
             }
         }
     }

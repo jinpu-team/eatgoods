@@ -741,7 +741,7 @@ Ext.define('Ext.data.Store', {
             }
 
             if (fields) {
-                model = new Ext.Class({
+                model = Ext.define('Ext.data.Store.ImplicitModel-' + (this.getStoreId() || Ext.id()), {
                     extend: 'Ext.data.Model',
                     config: {
                         fields: fields,
@@ -793,15 +793,12 @@ Ext.define('Ext.data.Store', {
         return proxy;
     },
 
-    updateProxy: function(proxy, oldProxy) {
+    updateProxy: function(proxy) {
         if (proxy) {
             if (!proxy.getModel()) {
                 proxy.setModel(this.getModel());
             }
-            proxy.on('metachange', 'onMetaChange', this);
-        }
-        if (oldProxy) {
-            proxy.un('metachange', 'onMetaChange', this);
+            proxy.on('metachange', this.onMetaChange, this);
         }
     },
 
@@ -1167,7 +1164,7 @@ Ext.define('Ext.data.Store', {
 
     /**
      * Remove all items from the store.
-     * @param {Boolean} [silent] Prevent the `clear` event from being fired.
+     * @param {Boolean} silent Prevent the `clear` event from being fired.
      */
     removeAll: function(silent) {
         if (silent !== true && this.eventFiringSuspended !== true) {
@@ -1318,7 +1315,6 @@ Ext.define('Ext.data.Store', {
      * A model instance should call this method on the Store it has been {@link Ext.data.Model#join joined} to.
      * @param {Ext.data.Model} record The model instance that was edited.
      * @param {String[]} modifiedFieldNames Array of field names changed during edit.
-     * @param {Object} modified
      */
     afterEdit: function(record, modifiedFieldNames, modified) {
         var me = this,
@@ -1367,8 +1363,6 @@ Ext.define('Ext.data.Store', {
      * @private
      * A model instance should call this method on the Store it has been {@link Ext.data.Model#join joined} to.
      * @param {Ext.data.Model} record The model instance that was edited.
-     * @param {String[]} modifiedFieldNames
-     * @param {Object} modified
      */
     afterCommit: function(record, modifiedFieldNames, modified) {
         var me = this,
@@ -1413,21 +1407,6 @@ Ext.define('Ext.data.Store', {
             data.remove(record);
             me.fireEvent('removerecords', me, [record], [index]);
         }
-    },
-
-    applyRemoteFilter: function(value) {
-        var proxy = this.getProxy();
-        return value || (proxy && proxy.isSQLProxy  === true);
-    },
-
-    applyRemoteSort: function(value) {
-        var proxy = this.getProxy();
-        return value || (proxy && proxy.isSQLProxy  === true);
-    },
-
-    applyRemoteGroup: function(value) {
-        var proxy = this.getProxy();
-        return value || (proxy && proxy.isSQLProxy  === true);
     },
 
     updateRemoteFilter: function(remoteFilter) {
@@ -1640,7 +1619,7 @@ Ext.define('Ext.data.Store', {
         }
         this.data.setFilters(null);
         if (suppressEvent) {
-            this.resumeEvents(true);
+            this.resumeEvents();
         } else if (ln !== this.data.length) {
             this.fireEvent('refresh', this, this.data);
         }
@@ -2153,7 +2132,7 @@ Ext.define('Ext.data.Store', {
             // Now lets add the records without firing an addrecords event
             me.suspendEvents();
             me.add(records);
-            me.resumeEvents(true); // true to discard the queue
+            me.resumeEvents();
         }
 
         me.fireEvent('refresh', me, data);
@@ -2292,13 +2271,6 @@ Ext.define('Ext.data.Store', {
     },
 
     destroy: function() {
-        this.clearData();
-        var proxy = this.getProxy();
-        if (proxy) {
-            // TODO: Use un() instead of clearListeners() when TOUCH-2723 is fixed.
-//          proxy.un('metachange', 'onMetaChange', this);
-            proxy.clearListeners();
-        }
         Ext.data.StoreManager.unregister(this);
         this.callParent(arguments);
     }

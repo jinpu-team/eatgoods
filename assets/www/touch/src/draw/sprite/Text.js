@@ -145,7 +145,7 @@ Ext.define("Ext.draw.sprite.Text", {
                 font: '10px sans-serif',
                 textBaseline: "alphabetic",
                 textAlign: "start",
-                strokeStyle: 'rgba(0, 0, 0, 0)',
+                strokeStyle: 'none',
                 divBased: true,
                 fillStyle: '#000',
                 x: 0,

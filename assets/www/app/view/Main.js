@@ -7,7 +7,6 @@ Ext.define('test.view.Main', {
     ],
     config: {
         tabBarPosition: 'bottom',
-        
         items: [
             {
                 title: '查找',
@@ -31,11 +30,11 @@ Ext.define('test.view.Main', {
                     ]
                 },
                 html: [
-                    "<ul class='menu_list'><li><label>炒菜</label><span>手撕包菜</span><span>地三鲜</span><span>回锅肉</span><span>小炒肉</span></li>",
-                    "<li><label>米粉类</label><span>炒米粉</span><span>炒土豆粉</span><span>酸辣粉</span><span>牛肉粉</span></li>",
-                    "<li><label>米粉类</label><span>炒米粉</span><span>炒土豆粉</span><span>酸辣粉</span><span>牛肉粉</span></li>",
-                    "<li><label>米粉类</label><span>炒米粉</span><span>炒土豆粉</span><span>酸辣粉</span><span>牛肉粉</span></li>",
-                    "<li><label>炒饭</label><span>蛋炒饭</span><span>西红柿炒饭</span><span>扬州炒饭</span></li></ul>"
+                    "<ul class='menu_list'><li><label>炒菜</label><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span></li>",
+                    "<li><label>米粉</label><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span></li>",
+                    "<li><label>米粉</label><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span></li>",
+                    "<li><label>米粉</label><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span></li>",
+                    "<li><label>炒饭</label><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span><span><img width='48' height='48' src='resources/images/pic01.jpg' onClick='WHAT_GOES_HERE?'/></span></li></ul>"
                 ].join("")
             },
             {
@@ -50,11 +49,38 @@ Ext.define('test.view.Main', {
                     },
                     {
                         xtype: 'video',
-                        url: 'http://av.vimeo.com/64284/137/87347327.mp4?token=1330978144_f9b698fea38cd408d52a2393240c896c',
-                        posterUrl: 'http://b.vimeocdn.com/ts/261/062/261062119_640.jpg'
+                        url: 'http://www.tangdou.com/v44/dANMMAMjwDzj0Q2.html',
+                        posterUrl: 'resources/images/pic01.jpg'
+                    }
+                ]
+            },
+            {
+                title:'团饭',
+                iconCls:'shop1',
+                items:[
+                    {
+                        docked:'top',
+                        xtype:'titlebar',
+                        title:'一起订饭'
+                    },
+                    {
+
                     }
                 ]
             }
-        ]
+        ],
+        listeners:{
+            painted:function(panel){
+                var el=panel.element;
+                el.on('tap',function(e,t){
+                    var image=e.getTarget('img');
+                    if(image){
+                        //an image was tapped
+                        alert("ok");
+                    }
+                },panel);
+            }
+        }
+
     }
 });

@@ -616,7 +616,6 @@ Ext.define('Ext.chart.AbstractChart', {
         me.surfaceMap = {};
         me.legendStore = new Ext.data.Store({
             storeId: this.getId() + '-legendStore',
-            autoDestroy: true,
             fields: [
                 'id', 'name', 'mark', 'disabled', 'series', 'index'
             ]
@@ -726,9 +725,8 @@ Ext.define('Ext.chart.AbstractChart', {
 
     updateColors: function (colors) {
         var series = this.getSeries(),
-            seriesCount = series && series.length,
             seriesItem;
-        for (var i = 0; i < seriesCount; i++) {
+        for (var i = 0; i < series.length; i++) {
             seriesItem = series[i];
             if (!seriesItem.getColors()) {
                 seriesItem.updateColors(colors);
@@ -1161,22 +1159,12 @@ Ext.define('Ext.chart.AbstractChart', {
     // @private remove gently.
     destroy: function () {
         var me = this,
-            emptyArray = [],
-            legend = me.getLegend(),
-            legendStore = me.getLegendStore();
+            emptyArray = [];
         me.surfaceMap = null;
         me.setHighlightItem(null);
         me.setSeries(emptyArray);
         me.setAxes(emptyArray);
         me.setInteractions(emptyArray);
-        if (legendStore) {
-            legendStore.destroy();
-            me.legendStore = null;
-        }
-        if (legend) {
-            legend.destroy();
-            me.setLegend(null);
-        }
         me.setStore(null);
         Ext.Viewport.un('orientationchange', me.redraw, me);
         me.cancelLayout();

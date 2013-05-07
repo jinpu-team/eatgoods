@@ -126,25 +126,10 @@ Ext.define('Ext.dom.Query', {
      * @return {Boolean}
      */
     is: function(el, q) {
-        var root = el.parentNode,
-            is;
-
         if (typeof el == "string") {
             el = document.getElementById(el);
         }
-
-        if (!root) {
-            root = document.createDocumentFragment();
-            root.appendChild(el);
-            is = this.select(q, root).indexOf(el) !== -1;
-            root.removeChild(el);
-            root = null;
-        }
-        else {
-            is = this.select(q).indexOf(el) !== -1;
-        }
-
-        return is;
+        return this.select(q).indexOf(el) !== -1;
     },
 
     isXml: function(el) {

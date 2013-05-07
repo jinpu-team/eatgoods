@@ -15,7 +15,7 @@ Ext.define('Ext.tab.Bar', {
 
     config: {
         /**
-         * @cfg baseCls
+         * @cfg
          * @inheritdoc
          */
         baseCls: Ext.baseCSSPrefix + 'tabbar',
@@ -48,13 +48,6 @@ Ext.define('Ext.tab.Bar', {
      * @param {Ext.tab.Tab} newTab The new Tab
      * @param {Ext.tab.Tab} oldTab The old Tab
      */
-
-    platformConfig: [{
-        theme: ['Blackberry'],
-        defaults: {
-            flex: 1
-        }
-    }],
 
     initialize: function() {
         var me = this;
@@ -112,8 +105,6 @@ Ext.define('Ext.tab.Bar', {
                 layout.pack = (layout && layout.pack) ? layout.pack : pack;
             }
         }
-
-		this.callParent(arguments);
     },
 
     /**

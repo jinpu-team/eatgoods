@@ -240,9 +240,7 @@
          *
          * Refer to config options of {@link Ext.Loader} for the list of possible properties.
          *
-         * @param {Object/String} name The config object to override the default values
-         * or name of a single config setting when also passing the second parameter.
-         * @param {Mixed} [value] The value for the config setting.
+         * @param {Object} config The config object to override the default values.
          * @return {Ext.Loader} this
          */
         setConfig: function(name, value) {
@@ -637,6 +635,11 @@
 
         /**
          * Load a script file, supports both asynchronous and synchronous approaches
+         *
+         * @param {String} url
+         * @param {Function} onLoad
+         * @param {Object} scope
+         * @param {Boolean} synchronous
          * @private
          */
         loadScriptFile: function(url, onLoad, onError, scope, synchronous) {

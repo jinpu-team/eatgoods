@@ -1,6 +1,6 @@
 /**
  * @class Ext.chart.series.Pie3D
- * @extends Ext.chart.series.Polar
+ * @extends Ext.chart.series.sprite.Polar
  * 
  * Creates a 3D Pie Chart.
  *
