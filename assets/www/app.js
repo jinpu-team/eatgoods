@@ -14,19 +14,29 @@
 //<debug>
 Ext.Loader.setPath({
     'Ext': 'touch/src',
-    'test': 'app'
+    'eatgoods': 'app'
 });
 //</debug>
 
 Ext.application({
-    name: 'test',
+    name: 'eatgoods',
+
+    models: ["Note"],
+
+    stores: ["Notes"],
+
+    controller:[
+        'Notes'
+    ],
 
     requires: [
         'Ext.MessageBox'
     ],
 
     views: [
-        'Main'
+        'Main',
+        'NotesList',
+        'NoteEditor'
     ],
 
     icon: {
@@ -49,10 +59,17 @@ Ext.application({
 
     launch: function() {
         // Destroy the #appLoadingIndicator element
-        Ext.fly('appLoadingIndicator').destroy();
+        // Ext.fly('appLoadingIndicator').destroy();
 
-        // Initialize the main view
-        Ext.Viewport.add(Ext.create('test.view.Main'));
+        // // Initialize the main view
+        // Ext.Viewport.add(Ext.create('eatgoods.view.Main'));
+        var notesListContainer ={
+            xtype:"noteslistcontainer"
+        };
+        var noteEditor ={
+            xtype: "noteeditor"
+        }
+        Ext.Viewport.add([notesListContainer,noteEditor]);
     },
 
     onUpdated: function() {
